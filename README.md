@@ -1,108 +1,75 @@
-# Getting Started app for Discord
+# Claude-Integrated Discord Bot
 
-This project contains a basic rock-paper-scissors-style Discord app written in JavaScript, built for the [getting started guide](https://discord.com/developers/docs/getting-started).
-
-![Demo of app](https://github.com/discord/discord-example-app/raw/main/assets/getting-started-demo.gif?raw=true)
+This project contains a Discord bot that interfaces with Claude AI, allowing for natural language interactions within a specified Discord server.
 
 ## Project structure
-Below is a basic overview of the project structure:
+
+Below is an overview of the simplified project structure:
 
 ```
-├── examples    -> short, feature-specific sample apps
-│   ├── app.js  -> finished app.js code
-│   ├── button.js
-│   ├── command.js
-│   ├── modal.js
-│   ├── selectMenu.js
-├── .env.sample -> sample .env file
-├── app.js      -> main entrypoint for app
-├── commands.js -> slash command payloads + helpers
-├── game.js     -> logic specific to RPS
-├── utils.js    -> utility functions and enums
-├── package.json
-├── README.md
-└── .gitignore
+├── .env              -> environment variables (keep this private!)
+├── app.js            -> main entrypoint for the bot
+├── claude-api.js     -> Claude AI integration logic
+├── config.json       -> basic configuration for the bot
+├── package.json      -> project dependencies and scripts
+└── .gitignore        -> specifies intentionally untracked files
 ```
 
-## Running app locally
+## Running the bot locally
 
-Before you start, you'll need to install [NodeJS](https://nodejs.org/en/download/) and [create a Discord app](https://discord.com/developers/applications) with the proper permissions:
-- `applications.commands`
-- `bot` (with Send Messages enabled)
+Before you start, you'll need to:
 
-
-Configuring the app is covered in detail in the [getting started guide](https://discord.com/developers/docs/getting-started).
+1. Install [NodeJS](https://nodejs.org/en/download/)
+2. [Create a Discord app](https://discord.com/developers/applications) with the proper permissions:
+   - `bot` (with Send Messages enabled)
+3. Obtain an API key from Anthropic for Claude AI access
 
 ### Setup project
 
-First clone the project:
-```
-git clone https://github.com/discord/discord-example-app.git
-```
+Clone the project and install dependencies:
 
-Then navigate to its directory and install dependencies:
 ```
-cd discord-example-app
+git clone [your-repository-url]
+cd [your-project-directory]
 npm install
 ```
-### Get app credentials
 
-Fetch the credentials from your app's settings and add them to a `.env` file (see `.env.sample` for an example). You'll need your app ID (`APP_ID`), bot token (`DISCORD_TOKEN`), and public key (`PUBLIC_KEY`).
+### Configure the bot
 
-Fetching credentials is covered in detail in the [getting started guide](https://discord.com/developers/docs/getting-started).
-
-> 🔑 Environment variables can be added to the `.env` file in Glitch or when developing locally, and in the Secrets tab in Replit (the lock icon on the left).
-
-### Install slash commands
-
-The commands for the example app are set up in `commands.js`. All of the commands in the `ALL_COMMANDS` array at the bottom of `commands.js` will be installed when you run the `register` command configured in `package.json`:
+Create a `.env` file in the project root and add the following:
 
 ```
-npm run register
+APP_ID=your_discord_app_id
+DISCORD_TOKEN=your_discord_bot_token
+CLAUDE_API_KEY=your_claude_api_key
+GUILD_ID=your_discord_server_id
+AUTHORIZED_USER_ID=your_discord_user_id
 ```
 
-### Run the app
+Replace the placeholder values with your actual credentials and IDs.
 
-After your credentials are added, go ahead and run the app:
+### Run the bot
 
-```
-node app.js
-```
-
-> ⚙️ A package [like `nodemon`](https://github.com/remy/nodemon), which watches for local changes and restarts your app, may be helpful while locally developing.
-
-If you aren't following the [getting started guide](https://discord.com/developers/docs/getting-started), you can move the contents of `examples/app.js` (the finished `app.js` file) to the top-level `app.js`.
-
-### Set up interactivity
-
-The project needs a public endpoint where Discord can send requests. To develop and test locally, you can use something like [`ngrok`](https://ngrok.com/) to tunnel HTTP traffic.
-
-Install ngrok if you haven't already, then start listening on port `3000`:
+After configuration, run the bot:
 
 ```
-ngrok http 3000
+npm start
 ```
 
-You should see your connection open:
+## Usage
 
-```
-Tunnel Status                 online
-Version                       2.0/2.0
-Web Interface                 http://127.0.0.1:4040
-Forwarding                    https://1234-someurl.ngrok.io -> localhost:3000
+Once the bot is running and invited to your server, simply send a message in the specified server. The bot will process messages from the authorized user and respond with Claude's replies.
 
-Connections                  ttl     opn     rt1     rt5     p50     p90
-                              0       0       0.00    0.00    0.00    0.00
-```
+## Customization
 
-Copy the forwarding address that starts with `https`, in this case `https://1234-someurl.ngrok.io`, then go to your [app's settings](https://discord.com/developers/applications).
+To modify the bot's behavior or add new features, edit the `app.js` and `claude-api.js` files. The `config.json` file can be used for any additional configuration options you might want to add.
 
-On the **General Information** tab, there will be an **Interactions Endpoint URL**. Paste your ngrok address there, and append `/interactions` to it (`https://1234-someurl.ngrok.io/interactions` in the example).
+## Security Note
 
-Click **Save Changes**, and your app should be ready to run 🚀
+Keep your `.env` file and all API keys private. Never commit them to version control or share them publicly.
 
-## Other resources
-- Read **[the documentation](https://discord.com/developers/docs/intro)** for in-depth information about API features.
-- Browse the `examples/` folder in this project for smaller, feature-specific code examples
-- Join the **[Discord Developers server](https://discord.gg/discord-developers)** to ask questions about the API, attend events hosted by the Discord API team, and interact with other devs.
-- Check out **[community resources](https://discord.com/developers/docs/topics/community-resources#community-resources)** for language-specific tools maintained by community members.
+## Support
+
+For questions about the Discord API, join the [Discord Developers server](https://discord.gg/discord-developers).
+
+For Claude AI-related queries, refer to the [Anthropic documentation](https://www.anthropic.com).
